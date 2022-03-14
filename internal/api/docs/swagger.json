@@ -1,0 +1,181 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api": {
+            "get": {
+                "description": "fetch shorten urls.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "api"
+                ],
+                "summary": "get shorten urls.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.ShortenUrl"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "create new shorturl.",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "api"
+                ],
+                "summary": "creates a new code for url redirection.",
+                "parameters": [
+                    {
+                        "description": "Shorten Url Payload",
+                        "name": "shorturl",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UrlRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/{shorten}": {
+            "get": {
+                "description": "redirect shorten url.",
+                "tags": [
+                    "api"
+                ],
+                "summary": "redirect shorten url.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Shorten Url Code",
+                        "name": "shorten",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "301": {
+                        "description": ""
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "delete shorten url.",
+                "tags": [
+                    "api"
+                ],
+                "summary": "deletes a shorten url code by param.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Shorten Url Code",
+                        "name": "shorten",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/{shorten}/count": {
+            "get": {
+                "description": "shorten url redirection count.",
+                "tags": [
+                    "api"
+                ],
+                "summary": "shorten url redirection count.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Shorten Url Code",
+                        "name": "shorten",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "request.UrlRequest": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.ShortenUrl": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "redirectionCount": {
+                    "type": "number"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

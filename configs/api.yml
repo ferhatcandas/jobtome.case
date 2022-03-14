@@ -1,0 +1,4 @@
+redisAddr: "localhost:6379"
+redisPass: ""
+shortUrlLength: 6
+port: "8000"

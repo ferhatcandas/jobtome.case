@@ -1,0 +1,26 @@
+version: '3.4'
+services:
+  redis:
+    image: "redis:alpine"
+    command: redis-server
+    restart: always
+    ports:
+      - 6379
+    networks:
+      - redis
+
+  webapi:
+    image: webapi
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - redis
+    ports:
+      - 8000:8000
+    networks:
+      - redis
+networks:
+  redis:
+    driver: bridge

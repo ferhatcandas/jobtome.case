@@ -1,0 +1,117 @@
+definitions:
+  request.UrlRequest:
+    properties:
+      url:
+        type: string
+    type: object
+  response.ShortenUrl:
+    properties:
+      code:
+        type: string
+      redirectionCount:
+        type: number
+      url:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api:
+    get:
+      description: fetch shorten urls.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.ShortenUrl'
+            type: array
+      summary: get shorten urls.
+      tags:
+      - api
+    post:
+      consumes:
+      - application/json
+      description: create new shorturl.
+      parameters:
+      - description: Shorten Url Payload
+        in: body
+        name: shorturl
+        required: true
+        schema:
+          $ref: '#/definitions/request.UrlRequest'
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: creates a new code for url redirection.
+      tags:
+      - api
+  /api/{shorten}:
+    delete:
+      description: delete shorten url.
+      parameters:
+      - description: Shorten Url Code
+        in: path
+        name: shorten
+        required: true
+        type: string
+      responses:
+        "204":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: deletes a shorten url code by param.
+      tags:
+      - api
+    get:
+      description: redirect shorten url.
+      parameters:
+      - description: Shorten Url Code
+        in: path
+        name: shorten
+        required: true
+        type: string
+      responses:
+        "301":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: redirect shorten url.
+      tags:
+      - api
+  /api/{shorten}/count:
+    get:
+      description: shorten url redirection count.
+      parameters:
+      - description: Shorten Url Code
+        in: path
+        name: shorten
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: shorten url redirection count.
+      tags:
+      - api
+swagger: "2.0"
